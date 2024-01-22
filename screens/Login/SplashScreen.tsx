@@ -6,149 +6,175 @@ import {
   Image,
   Center,
   ButtonText,
+  Text,
+  View,
+  useToken,
+  useColorMode,
+  Icon,
+  MenuIcon,
 } from '@gluestack-ui/themed';
-
-import GuestLayout from '../../layouts/GuestLayout';
-import StyledExpoRouterLink from '../../components/StyledExpoRouterLink';
-
-import { styled } from '@gluestack-style/react';
-
-const StyledImage = styled(Image, {
-  '@sm': {
-    props: {
-      style: {
-        height: 40,
-        width: 320,
-      },
-    },
-  },
-  '@md': {
-    props: {
-      style: {
-        height: 141,
-        width: 275,
-      },
-    },
-  },
-});
-
-// to render login and sign up buttons
-function ActionButtons() {
-  return (
-    <VStack
-      space="xs"
-      mt="$10"
-      sx={{
-        '@md': {
-          mt: '$12',
-        },
-      }}
-    >
-      <Button
-        sx={{
-          ':hover': {
-            bg: '$backgroundLight100',
-          },
-        }}
-        size="md"
-        variant="solid"
-        action="primary"
-        isDisabled={false}
-        isFocusVisible={false}
-        backgroundColor="$backgroundLight0"
-      >
-        <StyledExpoRouterLink href="/login">
-          <ButtonText
-            fontWeight="$bold"
-            textDecorationLine="none"
-            color="$primary500"
-          >
-            LOGIN
-          </ButtonText>
-        </StyledExpoRouterLink>
-      </Button>
-
-      <Button
-        sx={{
-          ':hover': {
-            bg: '$backgroundLight0',
-            _text: {
-              color: '$primary500',
-            },
-          },
-        }}
-        my="$4"
-        size="md"
-        variant="outline"
-        borderColor="$borderLight0"
-        action="primary"
-        isDisabled={false}
-        isFocusVisible={false}
-      >
-        <StyledExpoRouterLink href="/signup">
-          <ButtonText textDecorationLine="none" color="$textLight50">
-            SIGN UP
-          </ButtonText>
-        </StyledExpoRouterLink>
-      </Button>
-    </VStack>
-  );
-}
-
-function HeaderLogo() {
-  return (
-    <Box alignItems="center" justifyContent="center">
-      <StyledImage
-        alt="gluestack-ui Pro"
-        resizeMode="contain"
-        source={require('./assets/images/gluestackUiProLogo_web_light.svg')}
-        sx={{
-          '@md': {
-            display: 'flex',
-          },
-        }}
-        display="none"
-      />
-
-      <StyledImage
-        sx={{
-          '@md': {
-            display: 'none',
-          },
-        }}
-        alt="gluestack-ui Pro"
-        display="flex"
-        source={require('./assets/images/gluestackUiProLogo_mobile.png')}
-      />
-    </Box>
-  );
-}
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { productData } from '../../data/productData';
 
 export default function SplashScreen() {
+  const darkBlue300 = useToken('colors', 'darkBlue800');
+  // todo Implement the color mode if we use the light style
+  // const colorMode = useColorMode();
+
   return (
     // Wrapper component includes the <GluestackUIProvider></GluestackUIProvider>
     // place GluestackUIProvider in your app root accordingly
     // remove Wrapper tag from here in your codebase
-    <GuestLayout>
-      <Center w="$full" flex={1}>
+    // <View>
+    <SafeAreaView>
+      {/* <Box
+        sx={{
+          height: '$full',
+        }}
+      > */}
+      <KeyboardAwareScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          backgroundColor: darkBlue300,
+          minHeight: '100%',
+        }}
+      >
+        <NavigationBar />
         <Box
-          maxWidth="$508"
           w="$full"
-          minHeight="$authcard"
+          flex={1}
           sx={{
-            '@md': {
-              // h: '$authcard',
-              px: '$8',
-              bg: '$primary500',
-            },
+            justifyContent: 'flex-start',
+            p: '$4',
+            py: '$6',
           }}
-          px="$4"
-          justifyContent="center"
         >
-          <HeaderLogo />
-          <ActionButtons />
+          <InfoBanner />
+          <ProductCardContainer />
+          <Text sx={{}}>Hello</Text>
         </Box>
-      </Center>
-    </GuestLayout>
+      </KeyboardAwareScrollView>
+      {/* </Box> */}
+    </SafeAreaView>
   );
 }
+
+const NavigationBar = () => {
+  return (
+    <Box
+      sx={{
+        bg: '$amber500',
+        minHeight: '$12',
+        width: '$full',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        p: '$2',
+      }}
+    >
+      <Text>Super Company</Text>
+      <Avatar />
+      <Button
+        size="sm"
+        sx={{
+          backgroundColor: 'transparent',
+          px: '$3',
+          py: '$0',
+        }}
+      >
+        <Icon as={MenuIcon} m="$0" w="$6" h="$6" color="$amber100" />
+      </Button>
+    </Box>
+  );
+};
+
+const Avatar = () => {
+  return (
+    <Box
+      sx={{
+        width: '$10',
+        height: '$10',
+        borderRadius: '$full',
+        backgroundColor: '$amber100',
+      }}
+    ></Box>
+  );
+};
+
+const InfoBanner = () => {
+  return (
+    <Center
+      sx={{
+        height: '$40',
+        backgroundColor: '$amber500',
+        borderRadius: '$md',
+      }}
+    >
+      <Text>Achievement</Text>
+    </Center>
+  );
+};
+
+const ProductCardContainer = () => {
+  return (
+    <Box
+      sx={{
+        width: '$full',
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: '$6',
+        justifyContent: 'space-between',
+        rowGap: '$4',
+      }}
+    >
+      {productData.map((data, index) => {
+        return <ProductCard key={index} data={data} />;
+      })}
+    </Box>
+  );
+};
+const ProductCard = ({ data }) => {
+  return (
+    <Box
+      sx={{
+        minHeight: '$56',
+        width: '48%',
+        backgroundColor: '$amber200',
+        borderRadius: '$md',
+        p: '$1',
+      }}
+    >
+      <Box
+        sx={{
+          width: '$full',
+          height: '$40',
+          backgroundColor: '$amber100',
+          borderRadius: '$md',
+        }}
+      ></Box>
+      <TextBlock />
+      <TextBlock
+        sx={{
+          width: '80%',
+        }}
+      />
+    </Box>
+  );
+};
+
+const TextBlock = ({ sx }: { sx?: {} }) => {
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        height: '$4',
+        backgroundColor: '$coolGray100',
+        mt: '$2',
+        ...sx,
+      }}
+    ></Box>
+  );
+};

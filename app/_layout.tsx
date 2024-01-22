@@ -50,17 +50,10 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
   return (
-    <GluestackUIProvider config={config}>
+    <GluestackUIProvider config={config} colorMode="dark">
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="login" options={{ headerShown: false }} />
-        <Stack.Screen name="signup" options={{ headerShown: false }} />
-        <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
-        <Stack.Screen name="verify-otp" options={{ headerShown: false }} />
-        <Stack.Screen name="create-password" options={{ headerShown: false }} />
       </Stack>
     </GluestackUIProvider>
   );

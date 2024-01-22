@@ -2,23 +2,18 @@ import React from 'react';
 import {
   Box,
   VStack,
-  Button,
   Image,
   Center,
   ButtonText,
   Text,
-  View,
-  useToken,
-  useColorMode,
-  Icon,
-  MenuIcon,
+  Heading,
 } from '@gluestack-ui/themed';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { productData } from '../../data/productData';
+import StyledKeyBoardAdwareScrollView from '../../components/StyledKeyBoardAdwareScrollView';
+import { ProductCard } from '../../components/ProductCard';
+import ExpoLinearGradient from '../../components/ExpoLinearGradient';
 
 export default function SplashScreen() {
-  const darkBlue300 = useToken('colors', 'darkBlue800');
   // todo Implement the color mode if we use the light style
   // const colorMode = useColorMode();
 
@@ -27,154 +22,100 @@ export default function SplashScreen() {
     // place GluestackUIProvider in your app root accordingly
     // remove Wrapper tag from here in your codebase
     // <View>
-    <SafeAreaView>
-      {/* <Box
+    <StyledKeyBoardAdwareScrollView>
+      <IntroBanner />
+      <GraphContainer
+        text="Self Achievement Graph"
         sx={{
-          height: '$full',
+          mt: '$6',
         }}
-      > */}
-      <KeyboardAwareScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          backgroundColor: darkBlue300,
-          minHeight: '100%',
+      />
+      <GraphContainer
+        text="Team Achievement Graph"
+        sx={{
+          mt: '$3',
         }}
-      >
-        <NavigationBar />
-        <Box
-          w="$full"
-          flex={1}
-          sx={{
-            justifyContent: 'flex-start',
-            p: '$4',
-            py: '$6',
-          }}
-        >
-          <InfoBanner />
-          <ProductCardContainer />
-          <Text sx={{}}>Hello</Text>
-        </Box>
-      </KeyboardAwareScrollView>
-      {/* </Box> */}
-    </SafeAreaView>
+      />
+      <GraphContainer
+        text="Target Graph"
+        sx={{
+          mt: '$3',
+        }}
+      />
+      <ProductCardContainer title="Recommended Products" />
+      <ProductCardContainer title="New Product" />
+    </StyledKeyBoardAdwareScrollView>
   );
 }
 
-const NavigationBar = () => {
+const IntroBanner = () => {
   return (
-    <Box
+    <ExpoLinearGradient
+      colors={['$darkBlue800', '$darkBlue600']}
       sx={{
-        bg: '$amber500',
-        minHeight: '$12',
-        width: '$full',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        p: '$2',
+        pt: '$8',
+        pb: '$6',
+        px: '$6',
+        borderRadius: '$md',
       }}
     >
-      <Text>Super Company</Text>
-      <Avatar />
-      <Button
-        size="sm"
+      <Text
         sx={{
-          backgroundColor: 'transparent',
-          px: '$3',
-          py: '$0',
+          fontSize: '$2xl',
         }}
       >
-        <Icon as={MenuIcon} m="$0" w="$6" h="$6" color="$amber100" />
-      </Button>
-    </Box>
+        Hi, you are doing great !!!
+      </Text>
+      <Text
+        sx={{
+          mt: '$3',
+        }}
+      >
+        Your current progress is: $100.293,00
+      </Text>
+    </ExpoLinearGradient>
   );
 };
 
-const Avatar = () => {
-  return (
-    <Box
-      sx={{
-        width: '$10',
-        height: '$10',
-        borderRadius: '$full',
-        backgroundColor: '$amber100',
-      }}
-    ></Box>
-  );
-};
-
-const InfoBanner = () => {
+const GraphContainer = ({ text, sx }: { text: string; sx?: any }) => {
   return (
     <Center
       sx={{
         height: '$40',
         backgroundColor: '$amber500',
         borderRadius: '$md',
+        ...sx,
       }}
     >
-      <Text>Achievement</Text>
+      <Text>{text}</Text>
     </Center>
   );
 };
 
-const ProductCardContainer = () => {
+const ProductCardContainer = ({ title, sx }: { title: string; sx?: {} }) => {
   return (
     <Box
       sx={{
-        width: '$full',
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        marginTop: '$6',
-        justifyContent: 'space-between',
-        rowGap: '$4',
+        mt: '$10',
+        ...sx,
       }}
     >
-      {productData.map((data, index) => {
-        return <ProductCard key={index} data={data} />;
-      })}
-    </Box>
-  );
-};
-const ProductCard = ({ data }) => {
-  return (
-    <Box
-      sx={{
-        minHeight: '$56',
-        width: '48%',
-        backgroundColor: '$amber200',
-        borderRadius: '$md',
-        p: '$1',
-      }}
-    >
+      <Heading>{title}</Heading>
       <Box
         sx={{
           width: '$full',
-          height: '$40',
-          backgroundColor: '$amber100',
-          borderRadius: '$md',
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          rowGap: '$4',
+          mt: '$3',
         }}
-      ></Box>
-      <TextBlock />
-      <TextBlock
-        sx={{
-          width: '80%',
-        }}
-      />
+      >
+        {productData.map((data, index) => {
+          return <ProductCard key={index} data={data} />;
+        })}
+      </Box>
     </Box>
-  );
-};
-
-const TextBlock = ({ sx }: { sx?: {} }) => {
-  return (
-    <Box
-      sx={{
-        width: '100%',
-        height: '$4',
-        backgroundColor: '$coolGray100',
-        mt: '$2',
-        ...sx,
-      }}
-    ></Box>
   );
 };

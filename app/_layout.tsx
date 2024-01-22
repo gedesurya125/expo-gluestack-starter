@@ -5,12 +5,14 @@ import {
   ThemeProvider,
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
+import { Slot, SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
 import { config } from '../gluestack-ui.config';
 import { GluestackUIProvider } from '@gluestack-ui/themed';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationBar } from '../components/navigationBar/NavigationBar';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -52,9 +54,10 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <GluestackUIProvider config={config} colorMode="dark">
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-      </Stack>
+      <SafeAreaView>
+        <NavigationBar />
+        <Slot />
+      </SafeAreaView>
     </GluestackUIProvider>
   );
 }

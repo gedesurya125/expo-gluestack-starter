@@ -4,10 +4,12 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
+    "start:clear": "expo start -c",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest -u"
+    "test": "jest -u",
+    "expo:fix": "npx expo install --fix"
   },
   "jest": {
     "preset": "jest-expo",
@@ -37,13 +39,13 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.44.2",
-    "react-native": "0.72.4",
+    "react-native": "0.72.6",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
-    "react-native-svg": "^13.4.0",
+    "react-native-svg": "13.9.0",
     "react-native-web": "~0.19.6",
     "react-router-dom": "^6.16.0",
     "styled-components": "^6.0.8",

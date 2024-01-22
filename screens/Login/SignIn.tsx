@@ -89,8 +89,9 @@ const SignInForm = () => {
     toast.show({
       placement: 'bottom right',
       render: ({ id }) => {
+        const toastId = 'toast-' + id;
         return (
-          <Toast nativeID={id} variant="accent" action="success">
+          <Toast nativeID={toastId} variant="accent" action="success">
             <ToastTitle>Signed in successfully</ToastTitle>
           </Toast>
         );
